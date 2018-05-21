@@ -1,0 +1,27 @@
+{# Tell Jinja to replace the blocks from 'base.html' #}
+{% extends 'base.html' %}
+
+{% block header %}
+    <h1>{% block title %}Edit "{{ post['title'] }}"{% endblock %}</h1>
+{% endblock %}
+
+{% block content %}
+    {# Declare method type of form page as "POST" #}
+    <form method="post">
+        <label for="title">Title</label>
+        {# Add input box for existing blog title #}
+        <input name="title" id="title"
+               value="{{ request.form['title'] or post['title'] }}" required>
+        <label for="body">Body</label>
+        {# Add text area for existing body of blog post #}
+        <textarea name="body" id="body">{{ request.form['body'] or post['body'] }}</textarea>
+        {# Add button to save blog post changes to SQLite database #}
+        <input type="submit" value="Save">
+    </form>
+    <hr>
+    {# Declare blog delete action type of form page as "POST" #}
+    <form action="{{ url_for('blog.delete', id=post['id']) }}" method="post">
+        {# Add button option type "danger" to delete blog post #}
+        <input class="danger" type="submit" value="Delete" onclick="return confirm('Are you sure?');">
+    </form>
+{% endblock %}

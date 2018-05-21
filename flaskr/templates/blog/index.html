@@ -1,0 +1,37 @@
+{# Tell Jinja to replace the blocks from 'base.html' #}
+{% extends 'base.html' %}
+
+{% block header %}
+    <h1>{% block title %}Posts{% endblock %}</h1>
+    {% if g.user %}
+        {# Add a link to the 'create' view if user is logged in #}
+        <a class="action" href="{{ url_for('blog.create') }}">New</a>
+    {% endif %}
+{% endblock %}
+
+{% block content %}
+    {# Loop through the posts returned by SQLite query #}
+    {% for post in posts %}
+        {# Declare method type of article page as "POST" #}
+        <article class="post">
+            <header>
+                <div>
+                    {# Show the title of a post #}
+                    <h1>{{ post['title'] }}</h1>
+                    {# Show the author and date of a post's creation #}
+                    <div class="about">by {{ post['username'] }} on {{ post['created'].strftime('%Y-%m-%d') }}</div>
+                </div>
+                {% if g.user['id'] == post['author_id'] %}
+                    {# Provide option to edit a post if the user is the author of a post #}
+                    <a class="action" href="{{ url_for('blog.update', id=post['id']) }}">Edit</a>
+                {% endif %}
+            </header>
+            {# Show the body of a post #}
+            <p class="body">{{ post['body'] }}</p>
+        </article>
+        {# Display a line after each post, except the last, to visually separate them #}
+        {% if not loop.last %}
+            <hr>
+        {% endif %}
+    {% endfor %}
+{% endblock %}

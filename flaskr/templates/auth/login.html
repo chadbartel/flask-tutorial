@@ -1,0 +1,20 @@
+{# Tell Jinja to replace the blocks from 'base.html' #}
+{% extends 'base.html' %}
+
+{% block header %}
+    <h1>{% block title %}Log In{% endblock %}</h1>
+{% endblock %}
+
+{% block content %}
+    {# Declare method type of form page as "POST" #}
+    <form method="post">
+        <label for="username">Username</label>
+        {# Add input box for username #}
+        <input name="username" id="username" required>
+        <label for="password">Password</label>
+        {# Add input box for password #}
+        <input type="password" name="password" id="password" required>
+        {# Add button to log in with username and password #}
+        <input type="submit" value="Log In">
+    </form>
+{% endblock %}
