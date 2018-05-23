@@ -46,4 +46,5 @@ def create_app(test_config=None):
     # No URL prefix, index view is at '/'
     app.add_url_rule('/', endpoint='index')
 
+    # Return 'Flask' object 'app'
     return app
